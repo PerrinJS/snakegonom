@@ -1,0 +1,2 @@
+#Ignore any files associated with the build process
+./Build/*
