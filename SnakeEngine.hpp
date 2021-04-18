@@ -22,5 +22,7 @@ public:
     SnakeEngine(int width, int height);
     SnakeEngine(int width, int height, Snake *snake);
     SnakeEngine(Snake *snake, PlayField *playfield);
-    ~SnakeEngine();
+    ~SnakeEngine(void);
+
+    void pause(void);
 };

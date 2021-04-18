@@ -22,10 +22,15 @@ SnakeEngine::SnakeEngine(Snake *snake, PlayField *playfield)
     this->m_snake = snake;
 }
 
-SnakeEngine::~SnakeEngine()
+SnakeEngine::~SnakeEngine(void)
 {
     if(this->m_playfieldCreatedHere)
         delete this->m_playfield;
     if(this->m_snakeCreatedHere)
         delete this->m_snake;
+}
+
+void SnakeEngine::pause(void)
+{
+    //TODO
 }

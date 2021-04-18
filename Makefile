@@ -1,31 +1,54 @@
-CXX= clang++
-CXXFLAGS= -Weverything -Werror -Wno-error=padded -Wno-c++98-compat -Wno-error=reorder-ctor #-Wno-error=unused-parameter -Wno-error=unused-private-field
+CXX=clang++
+CXXFLAGS=-Weverything -Werror -Wno-error=padded -Wno-c++98-compat -Wno-error=reorder-ctor #-Wno-error=unused-parameter -Wno-error=unused-private-field #-Wno-error=unused-command-line-argument
 
 #You should make a test build system and have it set to zero there (set this as 2)
-CXXOPTFLAG= -O0
+CXXOPTFLAG=-O0
 
-BUILDDIR= ./Build
-OFILES= $(BUILDDIR)/WindowHandler.o $(BUILDDIR)/SnakeEngine.o $(BUILDDIR)/Snake.o $(BUILDDIR)/Tile.o $(BUILDDIR)/SnakeEngineInterfaceController.o
-HFILES= WindowHandler.hpp SnakeEngine.hpp Snake.hpp Tile.hpp SnakeEngineInterfaceController.hpp
-EXE= $(BUILDDIR)/snakegonom
+BUILDDIR=./Build
 
-$(EXE): $(OFILES) snakegonom.cpp
-	$(CXX) $(CXXFLAGS) $(CXXOPTFLAG) $? -o $@ -lncurses -ltinfo -lboost_system
+OFILES = $(BUILDDIR)/WindowHandler.o
+OFILES += $(BUILDDIR)/SnakeEngine.o 
+OFILES += $(BUILDDIR)/Snake.o 
+OFILES += $(BUILDDIR)/Tile.o 
+OFILES += $(BUILDDIR)/SnakeEngineInterfaceController.o 
+OFILES += $(BUILDDIR)/snakegonom.o
 
-$(BUILDDIR)/SnakeEngineInterfaceController.o: SnakeEngineInterfaceController.cpp
-	$(CXX) $(CXXFLAGS) $(CXXOPTFLAG) -c $? -o $@
+HFILES = WindowHandler.hpp
+HFILES += SnakeEngine.hpp
+HFILES += Snake.hpp
+HFILES += Tile.hpp
+HFILES += SnakeEngineInterfaceController.hpp
 
-$(BUILDDIR)/WindowHandler.o: WindowHandler.cpp
-	$(CXX) $(CXXFLAGS) $(CXXOPTFLAG) -c $? -o $@
+SNEKENGDEP = $(BUILDDIR)/Snake.o $(BUILDDIR)/Tile.o
+WINHANDDEP = $(BUILDDIR)/SnakeEngine.o $(BUILDDIR)/Snake.o $(BUILDDIR)/Tile.o
+MAINDEP = $(filter-out $(BUILDDIR)/snakegonom.o, $(OFILES))
 
-$(BUILDDIR)/SnakeEngine.o: SnakeEngine.cpp 
-	$(CXX) $(CXXFLAGS) $(CXXOPTFLAG) -c $? -o $@
+INTCONTDEP = $(BUILDDIR)/WindowHandler.o
+INTCONTDEP += $(BUILDDIR)/SnakeEngine.o $(BUILDDIR)/Snake.o $(BUILDDIR)/Tile.o
+
+
+EXE=$(BUILDDIR)/snakegonom
+
+$(EXE): $(OFILES) 
+	$(CXX) $(CXXOPTFLAG) $? -o $@ -lncurses -ltinfo -lboost_system
+
+$(BUILDDIR)/snakegonom.o: snakegonom.cpp $(MAINDEP)
+	$(CXX) $(CXXFLAGS) $(CXXOPTFLAG) -c $< -o $@
+
+$(BUILDDIR)/SnakeEngineInterfaceController.o: SnakeEngineInterfaceController.cpp $(INTCONTDEP)
+	$(CXX) $(CXXFLAGS) $(CXXOPTFLAG) -c $< -o $@
+
+$(BUILDDIR)/WindowHandler.o: WindowHandler.cpp $(WINDHANDDEP)
+	$(CXX) $(CXXFLAGS) $(CXXOPTFLAG) -c $< -o $@
+
+$(BUILDDIR)/SnakeEngine.o: SnakeEngine.cpp $(SNEKENGDEP)
+	$(CXX) $(CXXFLAGS) $(CXXOPTFLAG) -c $< -o $@
 
 $(BUILDDIR)/Tile.o: Tile.cpp 
-	$(CXX) $(CXXFLAGS) $(CXXOPTFLAG) -c $? -o $@
+	$(CXX) $(CXXFLAGS) $(CXXOPTFLAG) -c $< -o $@
 
 $(BUILDDIR)/Snake.o: Snake.cpp 
-	$(CXX) $(CXXFLAGS) $(CXXOPTFLAG) -c $? -o $@
+	$(CXX) $(CXXFLAGS) $(CXXOPTFLAG) -c $< -o $@
 
 run: $(BUILDDIR)/snakegonom
 	$?
