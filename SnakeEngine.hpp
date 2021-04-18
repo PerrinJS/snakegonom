@@ -12,7 +12,8 @@ private:
     bool m_snakeCreatedHere = false;
     Snake *m_snake = nullptr;
     bool m_playfieldCreatedHere = false;
-    Tile m_playfield[][] = nullptr;
+    //TODO: mabe this shoudl be a boost::multi_array
+    std::vector< std::vector< Tile > > *m_playfield = nullptr;
 public:
     SnakeEngine(int width, int height);
     SnakeEngine(int width, int height, Snake *snake);
