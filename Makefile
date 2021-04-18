@@ -1,5 +1,5 @@
 CXX= clang++
-CXXFLAGS= -Wall -Wextra -Wpedantic -Wdeprecated -Wcomment -Wdiv-by-zero -Wshadow -Wunused -Wcomma -Werror
+CXXFLAGS= -Weverything -Werror
 
 #You should make a test build system and have it set to zero there (set this as 2)
 CXXOPTFLAG= -O0
