@@ -5,14 +5,17 @@ CXXFLAGS= -Weverything -Werror
 CXXOPTFLAG= -O0
 
 BUILDDIR= ./Build
-OFILES= $(BUILDDIR)/WindowHandler.o
-HFILES= WindowHandler.hpp
+OFILES= $(BUILDDIR)/WindowHandler.o $(BUILDDIR)/SnakeEngine.o
+HFILES= WindowHandler.hpp SnakeEngine.hpp
 EXE= $(BUILDDIR)/snakegonom
 
 $(EXE): $(OFILES) snakegonom.cpp
 	$(CXX) $(CXXFLAGS) $(CXXOPTFLAG) $? -o $@ -lncurses -ltinfo
 
 $(BUILDDIR)/WindowHandler.o: WindowHandler.cpp
+	$(CXX) $(CXXFLAGS) $(CXXOPTFLAG) -c $? -o $@
+
+$(BUILDDIR)/SnakeEngine.o: SnakeEngine.cpp
 	$(CXX) $(CXXFLAGS) $(CXXOPTFLAG) -c $? -o $@
 
 run: $(BUILDDIR)/snakegonom

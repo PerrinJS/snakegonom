@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "WindowHandler.hpp"
+#include "SnakeEngine.hpp"
 
 int main(void)
 {
