@@ -3,6 +3,10 @@
 #include "WindowHandler.hpp"
 #include "SnakeEngine.hpp"
 
+
+int WindowHandler::refCount = 0;
+WindowHandler *WindowHandler::masterWindowHandler = nullptr;
+
 WindowHandler::WindowHandler()
 {
     initscr();
@@ -13,6 +17,7 @@ WindowHandler::WindowHandler()
     //enable arrow keys on stdscr
     keypad(stdscr, TRUE);
 
+    this->masterWindowHandler = this;
 }
 
 WindowHandler::~WindowHandler(void)
@@ -36,4 +41,32 @@ std::vector<int> WindowHandler::getPlayAreaDimen(void)
     ret.push_back(0);
     ret.push_back(0);
     return ret;
+}
+
+WindowHandler *WindowHandler::getWindowHandlerSingleton()
+{
+    if(WindowHandler::masterWindowHandler == nullptr)
+        WindowHandler::masterWindowHandler = new WindowHandler();
+    WindowHandler::refCount++;
+    return WindowHandler::masterWindowHandler;
+}
+
+void WindowHandler::dropRef()
+{
+    if(refCount == 1)
+    {
+        delete WindowHandler::masterWindowHandler;
+        WindowHandler::refCount--;
+    }
+    else if(refCount > 1)
+        WindowHandler::refCount--;
+    else
+    {
+        throw WindowHandlerRefCountException();
+    }
+}
+
+const char* WindowHandlerRefCountException::what() const noexcept
+{
+    return "negative ref count";
 }

@@ -8,7 +8,7 @@
 
 int main(void)
 {
-    WindowHandler *wh = new WindowHandler();
+    WindowHandler *wh = WindowHandler::getWindowHandlerSingleton();
     auto playAreaSz = wh->getPlayAreaDimen();
     if(playAreaSz.size() >= 2)
     {
@@ -22,13 +22,15 @@ int main(void)
         controller = nullptr;
         delete se;
         se = nullptr;
-        delete wh;
+        wh->dropRef();
         wh = nullptr;
     }
     else
     {
-        delete wh;
+        wh->dropRef();
         wh = nullptr;
+
+        //We can only do this (use cout) because we deleted the window handler
         std::cout << "Error: could not get screen size" << std::endl;
     }
 
