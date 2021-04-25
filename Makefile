@@ -2,7 +2,7 @@ CXX=clang++
 CXXFLAGS=-Weverything -Werror -Wno-error=padded -Wno-c++98-compat -Wno-error=reorder-ctor #-Wno-error=unused-parameter -Wno-error=unused-private-field #-Wno-error=unused-command-line-argument
 
 #You should make a test build system and have it set to zero there (set this as 2)
-CXXOPTFLAG=-O0
+CXXOPTFLAG=-O2
 
 BUILDDIR=./Build
 
@@ -49,6 +49,10 @@ $(BUILDDIR)/Tile.o: Tile.cpp
 
 $(BUILDDIR)/Snake.o: Snake.cpp 
 	$(CXX) $(CXXFLAGS) $(CXXOPTFLAG) -c $< -o $@
+
+test: CXXFLAGS += -g -pg
+test: CXXOPTFLAG=-O0
+test: $(EXE)
 
 run: $(BUILDDIR)/snakegonom
 	$?
