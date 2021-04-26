@@ -34,3 +34,18 @@ void SnakeEngine::pause(void)
 {
     //TODO
 }
+
+/* SnecObserver Implementation */
+void SnakeEngine::sendMessage(SnecMessage message)
+{
+    switch(message.type)
+    {
+        //TODO: actually do something with this
+        case UPDATE: break;
+        case STATEINFO: break;
+        case INTERFACEINFO: break;
+        case PAUSE:
+            this->pause();
+            break;
+    }
+} 

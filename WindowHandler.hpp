@@ -3,27 +3,35 @@
 #include <vector>
 #include <exception>
 
+#include <ncurses.h>
+
 #include "SnakeEngine.hpp"
+#include "SnecObserver.hpp"
 
 /* TODO: make the window handler a singleton since only one 'instance' of
  * ncurses can exist at once */
-class WindowHandler
+class WindowHandler: public SnecObserver
 {
 private:
+    //the default values of thease are set int the cpp file
     static int refCount;
     static WindowHandler *masterWindowHandler;
+
+    int xwid = 0;
+    int ywid = 0;
+    WINDOW *playAreaWindow = nullptr;
+
     WindowHandler(void);
+    void updatexywid(void);
 public:
-    ~WindowHandler(void);
+    ~WindowHandler(void) override;
 
     void pause(void);
     std::vector<int> getPlayAreaDimen(void);
 
     static WindowHandler *getWindowHandlerSingleton();
     void dropRef();
-};
 
-class WindowHandlerRefCountException: public std::exception
-{
-    virtual const char* what() const noexcept override;
+    /* SnecObserver Implementation */
+    void sendMessage(SnecMessage message) override;
 };

@@ -7,10 +7,11 @@
 
 #include "Snake.hpp"
 #include "Tile.hpp"
+#include "SnecObserver.hpp"
 
 typedef boost::multi_array<Tile, 2> PlayField;
 
-class SnakeEngine
+class SnakeEngine: public SnecObserver
 {
 private:
     bool m_snakeCreatedHere = false;
@@ -22,7 +23,10 @@ public:
     SnakeEngine(int width, int height);
     SnakeEngine(int width, int height, Snake *snake);
     SnakeEngine(Snake *snake, PlayField *playfield);
-    ~SnakeEngine(void);
+    ~SnakeEngine(void) override;
 
     void pause(void);
+
+    /* SnecObserver Implementation */
+    void sendMessage(SnecMessage message) override;
 };

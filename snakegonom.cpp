@@ -6,6 +6,7 @@
 #include "WindowHandler.hpp"
 #include "SnakeEngineInterfaceController.hpp"
 
+//Rember to take adventage of the new observer infestructure
 int main(void)
 {
     WindowHandler *wh = WindowHandler::getWindowHandlerSingleton();
