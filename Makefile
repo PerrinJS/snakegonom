@@ -1,6 +1,6 @@
 CXX=clang++
 CXXFLAGS  =-Weverything -Werror -Wno-padded -Wno-c++98-compat -Wno-reorder-ctor
-CXXFLAGS += -Wno-c++20-designator -Wno-error=weak-vtables -Wno-error=unused-parameter #-Wno-error=unused-private-field -Wno-error=switch #-Wno-error=unused-command-line-argument
+CXXFLAGS += -Wno-c++20-designator -Wno-error=weak-vtables #-Wno-error=unused-parameter -Wno-error=unused-private-field -Wno-error=switch #-Wno-error=unused-command-line-argument
 
 #You should make a test build system and have it set to zero there (set this as 2)
 CXXOPTFLAG=-O2
