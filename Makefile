@@ -1,19 +1,20 @@
 CXX=clang++
-CXXFLAGS=-Weverything -Werror -Wno-error=padded -Wno-c++98-compat -Wno-error=reorder-ctor #-Wno-error=unused-parameter -Wno-error=unused-private-field #-Wno-error=unused-command-line-argument
+CXXFLAGS  =-Weverything -Werror -Wno-padded -Wno-c++98-compat -Wno-reorder-ctor
+CXXFLAGS += -Wno-c++20-designator -Wno-error=weak-vtables -Wno-error=unused-parameter #-Wno-error=unused-private-field -Wno-error=switch #-Wno-error=unused-command-line-argument
 
 #You should make a test build system and have it set to zero there (set this as 2)
 CXXOPTFLAG=-O2
 
 BUILDDIR=./Build
 
-OFILES = $(BUILDDIR)/WindowHandler.o
+OFILES  = $(BUILDDIR)/WindowHandler.o
 OFILES += $(BUILDDIR)/SnakeEngine.o 
 OFILES += $(BUILDDIR)/Snake.o 
 OFILES += $(BUILDDIR)/Tile.o 
 OFILES += $(BUILDDIR)/SnakeEngineInterfaceController.o 
 OFILES += $(BUILDDIR)/snakegonom.o
 
-HFILES = WindowHandler.hpp
+HFILES  = WindowHandler.hpp
 HFILES += SnakeEngine.hpp
 HFILES += Snake.hpp
 HFILES += Tile.hpp
@@ -23,14 +24,14 @@ SNEKENGDEP = $(BUILDDIR)/Snake.o $(BUILDDIR)/Tile.o
 WINHANDDEP = $(BUILDDIR)/SnakeEngine.o $(BUILDDIR)/Snake.o $(BUILDDIR)/Tile.o
 MAINDEP = $(filter-out $(BUILDDIR)/snakegonom.o, $(OFILES))
 
-INTCONTDEP = $(BUILDDIR)/WindowHandler.o
+INTCONTDEP  = $(BUILDDIR)/WindowHandler.o
 INTCONTDEP += $(BUILDDIR)/SnakeEngine.o $(BUILDDIR)/Snake.o $(BUILDDIR)/Tile.o
 
 
 EXE=$(BUILDDIR)/snakegonom
 
 $(EXE): $(OFILES) 
-	$(CXX) $(CXXOPTFLAG) $? -o $@ -lncurses -ltinfo -lboost_system
+	$(CXX) $(CXXOPTFLAG) $^ -o $@ -lncurses -ltinfo -lboost_system
 
 $(BUILDDIR)/snakegonom.o: snakegonom.cpp $(MAINDEP)
 	$(CXX) $(CXXFLAGS) $(CXXOPTFLAG) -c $< -o $@
