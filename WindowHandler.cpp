@@ -5,8 +5,6 @@
 #include "WindowHandler.hpp"
 #include "SnakeEngine.hpp"
 
-
-int WindowHandler::refCount = 0;
 WindowHandler *WindowHandler::masterWindowHandler = nullptr;
 
 WindowHandler::WindowHandler()
@@ -21,7 +19,8 @@ WindowHandler::WindowHandler()
 
     /* SETUP WINDOWS AND ATTRIBUTES */
     updatexywid();
-    this->playAreaWindow = newwin(static_cast<int>(ywid/2)-1, static_cast<int>(xwid/2)-1, 0, 0);
+    //the one at the end means we write the box starting at y=2
+    this->playAreaWindow = newwin(static_cast<int>(ywid/2)-1, static_cast<int>(xwid/2)-1, 1, 0);
     box(this->playAreaWindow, 0, 0);
 
     this->masterWindowHandler = this;
@@ -70,21 +69,7 @@ WindowHandler *WindowHandler::getWindowHandlerSingleton()
 {
     if(WindowHandler::masterWindowHandler == nullptr)
         WindowHandler::masterWindowHandler = new WindowHandler();
-    WindowHandler::refCount++;
     return WindowHandler::masterWindowHandler;
-}
-
-void WindowHandler::dropRef()
-{
-    assert(refCount >= 1);
-
-    if(refCount == 1)
-    {
-        delete WindowHandler::masterWindowHandler;
-        WindowHandler::refCount--;
-    }
-    else if(refCount > 1)
-        WindowHandler::refCount--;
 }
 
 /* SnecObserver Implementation */

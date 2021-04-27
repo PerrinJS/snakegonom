@@ -23,12 +23,12 @@ int main(void)
         controller = nullptr;
         delete se;
         se = nullptr;
-        wh->dropRef();
+        delete wh;
         wh = nullptr;
     }
     else
     {
-        wh->dropRef();
+        delete wh;
         wh = nullptr;
 
         //We can only do this (use cout) because we deleted the window handler

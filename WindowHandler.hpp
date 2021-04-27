@@ -14,7 +14,6 @@ class WindowHandler: public SnecObserver
 {
 private:
     //the default values of thease are set int the cpp file
-    static int refCount;
     static WindowHandler *masterWindowHandler;
 
     int xwid = 0;
@@ -30,7 +29,6 @@ public:
     std::vector<int> getPlayAreaDimen(void);
 
     static WindowHandler *getWindowHandlerSingleton();
-    void dropRef();
 
     /* SnecObserver Implementation */
     void sendMessage(SnecMessage message) override;
