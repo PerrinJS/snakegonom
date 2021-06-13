@@ -32,6 +32,11 @@ SnakeEngine::~SnakeEngine(void)
 
 void SnakeEngine::pause(void)
 {
+    //TODO: This currently has no use other than consistency of interface
+}
+
+void SnakeEngine::seUpdate(void)
+{
     //TODO
 }
 
@@ -41,7 +46,9 @@ void SnakeEngine::sendMessage(SnecMessage message)
     switch(message.type)
     {
         //TODO: actually do something with this
-        case UPDATE: break;
+        case UPDATE:
+            this->seUpdate();
+            break;
         case STATEINFO: break;
         case INTERFACEINFO: break;
         case PAUSE:

@@ -20,8 +20,7 @@ WindowHandler::WindowHandler()
     /* SETUP WINDOWS AND ATTRIBUTES */
     updatexywid();
     //the one at the end means we write the box starting at y=2
-    this->playAreaWindow = newwin(static_cast<int>(ywid/2)-1, static_cast<int>(xwid/2)-1, 1, 0);
-    box(this->playAreaWindow, 0, 0);
+    redraw();
 
     this->masterWindowHandler = this;
 }
@@ -36,17 +35,48 @@ WindowHandler::~WindowHandler(void)
     endwin();
 }
 
-void WindowHandler::updatexywid(void)
+bool WindowHandler::updatexywid(void)
 {
+    int oldx = this->xwid, oldy = this->ywid;
+    bool changed = false;
     getmaxyx(stdscr, ywid, xwid);
+    if((oldx != this->xwid) || (oldy != this->ywid))
+    {
+        changed = true;
+    }
+
+    return changed;
+}
+
+void WindowHandler::redraw(void)
+{
+    erase();
+    werase(this->playAreaWindow);
+    if(this->playAreaWindow != nullptr)
+    {
+        delwin(this->playAreaWindow);
+        this->playAreaWindow = nullptr;
+    }
+    //we leave a free line at the top of the screen as a "title"
+    this->playAreaWindow = newwin(static_cast<int>(ywid-2), static_cast<int>(xwid-1), 1, 0);
+    box(this->playAreaWindow, 0, 0);
 }
 
 void WindowHandler::pause(void)
 {
-    /* TODO: this is just till we have the interface filled out more and have
-     * a draw function */
-    updatexywid();
+    whUpdate();
+}
+
+void WindowHandler::whUpdate(void)
+{
+    /* TODO: This is just while were testing, eventually we should do something
+     * else when the screen is resized */
+    if(updatexywid())
+    {
+        redraw();
+    }
     printw("paused wid:%d, height:%d", xwid, ywid);
+    //ncurses refresh
     refresh();
     if(this->playAreaWindow != nullptr)
     {
@@ -79,9 +109,10 @@ void WindowHandler::sendMessage(SnecMessage message)
         case PAUSE:
             this->pause();
             break;
-        
-        //TODO: fill in what happends here
         case UPDATE:
+            this->whUpdate();
+            break;
+        //TODO: fill in what happends here
         case STATEINFO:
         case INTERFACEINFO:
             break;

@@ -19,6 +19,8 @@ private:
     bool m_playfieldCreatedHere = false;
     //TODO: Work out the details of multi_array implementation
     PlayField *m_playfield = nullptr;
+
+    void seUpdate(void);
 public:
     SnakeEngine(int width, int height);
     SnakeEngine(int width, int height, Snake *snake);

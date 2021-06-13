@@ -21,7 +21,11 @@ private:
     WINDOW *playAreaWindow = nullptr;
 
     WindowHandler(void);
-    void updatexywid(void);
+    //the return value is weather the size changed from the previous value
+    bool updatexywid(void);
+    //Builds / recreats the interface from scratch
+    void redraw(void);
+    void whUpdate(void);
 public:
     ~WindowHandler(void) override;
 
