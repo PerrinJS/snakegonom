@@ -1,6 +1,6 @@
-#include <ncurses.h>
-
 #include <iostream>
+
+#include <ncurses.h>
 
 #include "SnakeEngine.hpp"
 #include "SnakeEngineInterfaceController.hpp"
