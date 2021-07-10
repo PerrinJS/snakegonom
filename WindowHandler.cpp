@@ -7,7 +7,7 @@
 
 WindowHandler *WindowHandler::masterWindowHandler = nullptr;
 
-WindowHandler::WindowHandler()
+WindowHandler::WindowHandler(void)
 {
     initscr();
     // send keys as they are pressed
@@ -93,7 +93,7 @@ std::vector<int> WindowHandler::getPlayAreaDimen(void)
     return ret;
 }
 
-WindowHandler *WindowHandler::getWindowHandlerSingleton()
+WindowHandler *WindowHandler::getWindowHandlerSingleton(void)
 {
     if (WindowHandler::masterWindowHandler == nullptr)
         WindowHandler::masterWindowHandler = new WindowHandler();

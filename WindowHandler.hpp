@@ -33,7 +33,7 @@ class WindowHandler : public SnecObserver
     void pause(void);
     std::vector<int> getPlayAreaDimen(void);
 
-    static WindowHandler *getWindowHandlerSingleton();
+    static WindowHandler *getWindowHandlerSingleton(void);
 
     /* SnecObserver Implementation */
     void sendMessage(SnecMessage message) override;
