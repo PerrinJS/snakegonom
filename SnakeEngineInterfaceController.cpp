@@ -1,6 +1,5 @@
 #include "SnakeEngineInterfaceController.hpp"
 #include "SnecObserver.hpp"
-#include <algorithm>
 
 SnakeEngineInterfaceController::SnakeEngineInterfaceController(
     SnakeEngine *snakeEngine, WindowHandler *windowHandler)
@@ -20,24 +19,22 @@ void SnakeEngineInterfaceController::run()
     // TODO: this is for testing; tell all listeners to pause
     for (int i = 0; i < 5; i++)
     {
-        std::for_each(this->m_allObservers.begin(), this->m_allObservers.end(),
-                      [](SnecObserver *o)
-                      {
-                          o->sendMessage(SnecMessage{
-                              .type = UPDATE,
-                              .state = nullptr,
-                          });
-                      });
+        for (auto *o : this->m_allObservers)
+        {
+            o->sendMessage(SnecMessage{
+                .type = UPDATE,
+                .state = nullptr,
+            });
+        }
     }
 
-    std::for_each(this->m_allObservers.begin(), this->m_allObservers.end(),
-                  [](SnecObserver *o)
-                  {
-                      o->sendMessage(SnecMessage{
-                          .type = PAUSE,
-                          .state = nullptr,
-                      });
-                  });
+    for (auto *o : this->m_allObservers)
+    {
+        o->sendMessage(SnecMessage{
+            .type = PAUSE,
+            .state = nullptr,
+        });
+    }
 }
 
 /* For SnecObservable Implementation */
@@ -61,27 +58,26 @@ void SnakeEngineInterfaceController::attach(
     SnecObserver *observer,
     std::vector<SnecListenerCatagorization> catagorizations)
 {
-    std::for_each(catagorizations.begin(), catagorizations.end(),
-                  [&](SnecListenerCatagorization catagory)
-                  {
-                      switch (catagory)
-                      {
-                      case ALL:
-                      {
-                          this->m_allObservers.push_back(observer);
-                          break;
-                      }
-                      case SYSTEM:
-                      {
-                          this->m_systemObservers.push_back(observer);
-                          break;
-                      }
-                          /*TODO: get this to compile
-                          default:
-                          {
-                              //TODO: create an actual exception
-                              throw std::exception();
-                          }*/
-                      }
-                  });
+    for (auto catagory : catagorizations)
+    {
+        switch (catagory)
+        {
+        case ALL:
+        {
+            this->m_allObservers.push_back(observer);
+            break;
+        }
+        case SYSTEM:
+        {
+            this->m_systemObservers.push_back(observer);
+            break;
+        }
+            /*TODO: get this to compile
+            default:
+            {
+                //TODO: create an actual exception
+                throw std::exception();
+            }*/
+        }
+    }
 }
