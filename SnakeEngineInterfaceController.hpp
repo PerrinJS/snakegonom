@@ -17,12 +17,19 @@ class SnakeEngineInterfaceController : public SnecObservable
     std::vector<SnecObserver *> m_allObservers;
     std::vector<SnecObserver *> m_systemObservers;
 
+    // When set to false via an exit message we stop the loop in main
+    bool cont;
+
     /* For SnecObservable Implementation */
     // void notifyAll(void) override;
 
   public:
     SnakeEngineInterfaceController(SnakeEngine *snakeEngine,
                                    WindowHandler *windowHandler);
+
+    // TODO: try reimplementing this after reimplementing unlink
+    //~SnakeEngineInterfaceController(void) override;
+
     // this runs our engine loop
     void run(void);
 

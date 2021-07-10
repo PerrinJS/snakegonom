@@ -12,12 +12,23 @@ SnakeEngineInterfaceController::SnakeEngineInterfaceController(
     this->m_allObservers.push_back(m_windowHandler);
     this->m_systemObservers.push_back(m_snakeEngine);
     this->m_systemObservers.push_back(m_windowHandler);
+
+    // when run is called continue untill a message is given to stop
+    this->cont = true;
 }
+
+// TODO: try reimplementing this after fixing unlink
+/*SnakeEngineInterfaceController::~SnakeEngineInterfaceController(void)
+{
+    for (auto *ob : this->m_allObservers)
+    {
+        ob->unlinkObservable();
+    }
+}*/
 
 void SnakeEngineInterfaceController::run(void)
 {
-    // TODO: this is for testing; tell all listeners to pause
-    for (int i = 0; i < 5; i++)
+    while (this->cont)
     {
         for (auto *o : this->m_allObservers)
         {
@@ -28,6 +39,8 @@ void SnakeEngineInterfaceController::run(void)
         }
     }
 
+    // TODO: implent stop in all the classes before changing this to send a stop
+    // message
     for (auto *o : this->m_allObservers)
     {
         o->sendMessage(SnecMessage{
@@ -50,6 +63,9 @@ void SnakeEngineInterfaceController::sendMessage(SnecMessage message)
     case INTERFACEINFO:
         break;
     case PAUSE:
+        break;
+    case STOP:
+        this->cont = false;
         break;
     }
 }

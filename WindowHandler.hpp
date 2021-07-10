@@ -16,6 +16,8 @@ class WindowHandler : public SnecObserver
     // the default values of thease are set int the cpp file
     static WindowHandler *masterWindowHandler;
 
+    SnecObservable *engineInterfaceController = nullptr;
+
     int xwid = 0;
     int ywid = 0;
     WINDOW *playAreaWindow = nullptr;
@@ -25,7 +27,10 @@ class WindowHandler : public SnecObserver
     bool updatexywid(void);
     // Builds / recreats the interface from scratch
     void redraw(void);
+    // For handling the UPDATE message
     void whUpdate(void);
+    // Gets and handles all key events from ncurses
+    void handleKeyEvent(int toHandle);
 
   public:
     ~WindowHandler(void) override;
@@ -37,4 +42,7 @@ class WindowHandler : public SnecObserver
 
     /* SnecObserver Implementation */
     void sendMessage(SnecMessage message) override;
+    void linkObservable(SnecObservable *ovservable) override;
+    // TODO: Figure out why this is broken
+    // void unlinkObservable(void) override;
 };

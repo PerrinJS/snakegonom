@@ -46,12 +46,12 @@ void SnakeEngine::sendMessage(SnecMessage message)
     case UPDATE:
         this->seUpdate();
         break;
-    case STATEINFO:
-        break;
-    case INTERFACEINFO:
-        break;
     case PAUSE:
         this->pause();
+        break;
+    case STATEINFO:
+    case INTERFACEINFO:
+    case STOP:
         break;
     }
 }

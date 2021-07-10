@@ -1,8 +1,11 @@
 #include <cassert>
+#include <cstdio>
+#include <string>
 
 #include <ncurses.h>
 
 #include "SnakeEngine.hpp"
+#include "SnecObservable.hpp"
 #include "WindowHandler.hpp"
 
 WindowHandler *WindowHandler::masterWindowHandler = nullptr;
@@ -13,6 +16,7 @@ WindowHandler::WindowHandler(void)
     // send keys as they are pressed
     cbreak();
     noecho();
+    nodelay(stdscr, false);
     // TODO: this should be only enabled on the playwindow when we make it
     // enable arrow keys on stdscr
     keypad(stdscr, TRUE);
@@ -63,10 +67,10 @@ void WindowHandler::redraw(void)
     box(this->playAreaWindow, 0, 0);
 }
 
-void WindowHandler::pause(void) { whUpdate(); }
-
 void WindowHandler::whUpdate(void)
 {
+    handleKeyEvent(getch());
+
     /* TODO: This is just while were testing, eventually we should do something
      * else when the screen is resized */
     if (updatexywid())
@@ -81,8 +85,29 @@ void WindowHandler::whUpdate(void)
         wprintw(this->playAreaWindow, "test");
         wrefresh(this->playAreaWindow);
     }
-    getch();
 }
+
+void WindowHandler::handleKeyEvent(int toHandle)
+{
+    switch (toHandle)
+    {
+    case KEY_UP:
+    {
+        // TODO: this is just while we develop the rest of the system
+        if (this->engineInterfaceController)
+        {
+            printw("KeyPressed %d", toHandle);
+            this->engineInterfaceController->sendMessage(
+                Message{.type = STOP, .state = nullptr});
+        }
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+void WindowHandler::pause(void) { whUpdate(); }
 
 std::vector<int> WindowHandler::getPlayAreaDimen(void) const
 {
@@ -114,6 +139,24 @@ void WindowHandler::sendMessage(SnecMessage message)
     // TODO: fill in what happends here
     case STATEINFO:
     case INTERFACEINFO:
+    case STOP:
         break;
     }
 }
+
+void WindowHandler::linkObservable(SnecObservable *ovservable)
+{
+    if (ovservable)
+    {
+        this->engineInterfaceController = ovservable;
+    }
+}
+
+// TODO: Figure out why this is broken
+/*void WindowHandler::unlinkObservable(void)
+{
+    if (this->engineInterfaceController)
+    {
+        this->engineInterfaceController = nullptr;
+    }
+}*/

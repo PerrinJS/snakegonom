@@ -3,14 +3,16 @@
 #include <vector>
 
 class SnakeEngine;
+class SnecObservable;
 
 typedef enum MessageType
 {
     UPDATE,
     STATEINFO,
     INTERFACEINFO,
-    PAUSE /* so we can from the interface send a message to the controller to
-           * pause all dependent processes */
+    PAUSE, /* so we can from the interface send a message to the controller to
+            * pause all dependent processes */
+    STOP
 } SnecMessageType;
 
 /* This is used to diferentiate what type of listener is subscribing and where
@@ -34,6 +36,12 @@ typedef struct Message
 class SnecObserver
 {
   public:
+    /* only classes that need to send messages to the observable should
+     * implement this */
+    virtual void linkObservable(SnecObservable *) {}
+    // to be called by the observable in the destructor
+    // TODO: this is causing issues
+    // virtual void unlinkObservable(void) {}
     virtual void sendMessage(SnecMessage message) = 0;
     virtual ~SnecObserver() = default;
 };
