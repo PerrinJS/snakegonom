@@ -84,7 +84,7 @@ void WindowHandler::whUpdate(void)
     getch();
 }
 
-std::vector<int> WindowHandler::getPlayAreaDimen(void)
+std::vector<int> WindowHandler::getPlayAreaDimen(void) const
 {
     // TODO: make this actuall equate to how it will work
     std::vector<int> ret;
