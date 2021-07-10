@@ -14,7 +14,7 @@ SnakeEngineInterfaceController::SnakeEngineInterfaceController(
     this->m_systemObservers.push_back(m_windowHandler);
 }
 
-void SnakeEngineInterfaceController::run()
+void SnakeEngineInterfaceController::run(void)
 {
     // TODO: this is for testing; tell all listeners to pause
     for (int i = 0; i < 5; i++)
