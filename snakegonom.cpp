@@ -11,29 +11,22 @@ int main(void)
 {
     WindowHandler *wh = WindowHandler::getWindowHandlerSingleton();
     auto playAreaSz = wh->getPlayAreaDimen();
-    if (playAreaSz.size() >= 2)
-    {
-        SnakeEngine *se = new SnakeEngine(playAreaSz[0], playAreaSz[1]);
 
-        SnakeEngineInterfaceController *controller =
-            new SnakeEngineInterfaceController(se, wh);
-        controller->run();
+    //We should always have an x and y
+    assert(playAreaSz.size() == 2);
+    
+    SnakeEngine *se = new SnakeEngine(playAreaSz[0], playAreaSz[1]);
 
-        delete controller;
-        controller = nullptr;
-        delete se;
-        se = nullptr;
-        delete wh;
-        wh = nullptr;
-    }
-    else
-    {
-        delete wh;
-        wh = nullptr;
+    SnakeEngineInterfaceController *controller =
+        new SnakeEngineInterfaceController(se, wh);
+    controller->run();
 
-        // We can only do this (use cout) because we deleted the window handler
-        std::cout << "Error: could not get screen size" << std::endl;
-    }
+    delete controller;
+    controller = nullptr;
+    delete se;
+    se = nullptr;
+    delete wh;
+    wh = nullptr;
 
     return 0;
 }
