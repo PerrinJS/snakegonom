@@ -11,6 +11,6 @@ class Snake
     Snake() = default;
     ~Snake() = default;
 
-    int getLength();
+    int getLength() const;
 };
 } // namespace GEntity
