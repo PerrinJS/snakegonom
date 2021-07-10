@@ -1,30 +1,35 @@
 #pragma once
 
-#include <vector>
-#include "boost/multi_array.hpp"
 #include "boost/array.hpp"
 #include "boost/cstdlib.hpp"
+#include "boost/multi_array.hpp"
+#include <vector>
 
 #include "Snake.hpp"
-#include "Tile.hpp"
 #include "SnecObserver.hpp"
+#include "Tile.hpp"
 
-typedef boost::multi_array<Tile, 2> PlayField;
-
-class SnakeEngine: public SnecObserver
+// TODO: find a better home for this declaration
+namespace GEntity
 {
-private:
+typedef boost::multi_array<Tile, 2> PlayField;
+}
+
+class SnakeEngine : public SnecObserver
+{
+  private:
     bool m_snakeCreatedHere = false;
-    Snake *m_snake = nullptr;
+    GEntity::Snake *m_snake = nullptr;
     bool m_playfieldCreatedHere = false;
-    //TODO: Work out the details of multi_array implementation
-    PlayField *m_playfield = nullptr;
+    // TODO: Work out the details of multi_array implementation
+    GEntity::PlayField *m_playfield = nullptr;
 
     void seUpdate(void);
-public:
+
+  public:
     SnakeEngine(int width, int height);
-    SnakeEngine(int width, int height, Snake *snake);
-    SnakeEngine(Snake *snake, PlayField *playfield);
+    SnakeEngine(int width, int height, GEntity::Snake *snake);
+    SnakeEngine(GEntity::Snake *snake, GEntity::PlayField *playfield);
     ~SnakeEngine(void) override;
 
     void pause(void);

@@ -1,6 +1,3 @@
 #include "Snake.hpp"
 
-int Snake::getLength()
-{
-    return this->m_length;
-}
+int GEntity::Snake::getLength() { return this->m_length; }

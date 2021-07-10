@@ -1,7 +1,7 @@
 #pragma once
 
-#include <vector>
 #include <exception>
+#include <vector>
 
 #include <ncurses.h>
 
@@ -10,10 +10,10 @@
 
 /* TODO: make the window handler a singleton since only one 'instance' of
  * ncurses can exist at once */
-class WindowHandler: public SnecObserver
+class WindowHandler : public SnecObserver
 {
-private:
-    //the default values of thease are set int the cpp file
+  private:
+    // the default values of thease are set int the cpp file
     static WindowHandler *masterWindowHandler;
 
     int xwid = 0;
@@ -21,12 +21,13 @@ private:
     WINDOW *playAreaWindow = nullptr;
 
     WindowHandler(void);
-    //the return value is weather the size changed from the previous value
+    // the return value is weather the size changed from the previous value
     bool updatexywid(void);
-    //Builds / recreats the interface from scratch
+    // Builds / recreats the interface from scratch
     void redraw(void);
     void whUpdate(void);
-public:
+
+  public:
     ~WindowHandler(void) override;
 
     void pause(void);

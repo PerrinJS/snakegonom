@@ -3,15 +3,15 @@
 #include <iostream>
 
 #include "SnakeEngine.hpp"
-#include "WindowHandler.hpp"
 #include "SnakeEngineInterfaceController.hpp"
+#include "WindowHandler.hpp"
 
-//Rember to take adventage of the new observer infestructure
+// Rember to take adventage of the new observer infestructure
 int main(void)
 {
     WindowHandler *wh = WindowHandler::getWindowHandlerSingleton();
     auto playAreaSz = wh->getPlayAreaDimen();
-    if(playAreaSz.size() >= 2)
+    if (playAreaSz.size() >= 2)
     {
         SnakeEngine *se = new SnakeEngine(playAreaSz[0], playAreaSz[1]);
 
@@ -31,7 +31,7 @@ int main(void)
         delete wh;
         wh = nullptr;
 
-        //We can only do this (use cout) because we deleted the window handler
+        // We can only do this (use cout) because we deleted the window handler
         std::cout << "Error: could not get screen size" << std::endl;
     }
 

@@ -1,12 +1,16 @@
 #pragma once
 
+namespace GEntity
+{
 class Snake
 {
-private:
+  private:
     int m_length;
-public:
+
+  public:
     Snake() = default;
     ~Snake() = default;
 
     int getLength();
 };
+} // namespace GEntity

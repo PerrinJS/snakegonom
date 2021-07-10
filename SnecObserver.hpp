@@ -20,7 +20,7 @@ typedef enum MessageType
 typedef enum ListenerCatagorization
 {
     ALL,
-    SYSTEM //just the engine components
+    SYSTEM // just the engine components
 } SnecListenerCatagorization;
 
 typedef struct Message
@@ -28,12 +28,12 @@ typedef struct Message
     const SnecMessageType type;
     const std::vector<SnecListenerCatagorization> catagory;
     const SnakeEngine *state;
-    //TODO: fill in state holding for interface changes
+    // TODO: fill in state holding for interface changes
 } SnecMessage;
 
 class SnecObserver
 {
-public:
+  public:
     virtual void sendMessage(SnecMessage message) = 0;
     virtual ~SnecObserver() = default;
 };
