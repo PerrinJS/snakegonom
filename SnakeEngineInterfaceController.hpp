@@ -27,8 +27,7 @@ class SnakeEngineInterfaceController : public SnecObservable
     SnakeEngineInterfaceController(SnakeEngine *snakeEngine,
                                    WindowHandler *windowHandler);
 
-    // TODO: try reimplementing this after reimplementing unlink
-    //~SnakeEngineInterfaceController(void) override;
+    ~SnakeEngineInterfaceController(void) override;
 
     // this runs our engine loop
     void run(void);

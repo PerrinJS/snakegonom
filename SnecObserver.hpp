@@ -41,7 +41,7 @@ class SnecObserver
     virtual void linkObservable(SnecObservable *) {}
     // to be called by the observable in the destructor
     // TODO: this is causing issues
-    // virtual void unlinkObservable(void) {}
+    virtual void unlinkObservable(void) {}
     virtual void sendMessage(SnecMessage message) = 0;
-    virtual ~SnecObserver() = default;
+    virtual ~SnecObserver(void) = default;
 };

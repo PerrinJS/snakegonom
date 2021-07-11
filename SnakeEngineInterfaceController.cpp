@@ -17,14 +17,13 @@ SnakeEngineInterfaceController::SnakeEngineInterfaceController(
     this->cont = true;
 }
 
-// TODO: try reimplementing this after fixing unlink
-/*SnakeEngineInterfaceController::~SnakeEngineInterfaceController(void)
+SnakeEngineInterfaceController::~SnakeEngineInterfaceController(void) 
 {
     for (auto *ob : this->m_allObservers)
     {
         ob->unlinkObservable();
     }
-}*/
+}
 
 void SnakeEngineInterfaceController::run(void)
 {

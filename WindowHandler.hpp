@@ -43,6 +43,5 @@ class WindowHandler : public SnecObserver
     /* SnecObserver Implementation */
     void sendMessage(SnecMessage message) override;
     void linkObservable(SnecObservable *ovservable) override;
-    // TODO: Figure out why this is broken
-    // void unlinkObservable(void) override;
+    void unlinkObservable(void) override;
 };

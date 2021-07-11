@@ -16,14 +16,13 @@ WindowHandler::WindowHandler(void)
     // send keys as they are pressed
     cbreak();
     noecho();
-    nodelay(stdscr, false);
+    timeout(200);
     // TODO: this should be only enabled on the playwindow when we make it
     // enable arrow keys on stdscr
     keypad(stdscr, TRUE);
 
     /* SETUP WINDOWS AND ATTRIBUTES */
     updatexywid();
-    // the one at the end means we write the box starting at y=2
     redraw();
 
     this->masterWindowHandler = this;
@@ -77,11 +76,13 @@ void WindowHandler::whUpdate(void)
     {
         redraw();
     }
-    printw("paused wid:%d, height:%d", xwid, ywid);
+
+    mvprintw(0,0,"paused wid:%d, height:%d", xwid, ywid);
     // ncurses refresh
     refresh();
     if (this->playAreaWindow != nullptr)
     {
+        wmove(this->playAreaWindow,0,0);
         wprintw(this->playAreaWindow, "test");
         wrefresh(this->playAreaWindow);
     }
@@ -152,11 +153,10 @@ void WindowHandler::linkObservable(SnecObservable *ovservable)
     }
 }
 
-// TODO: Figure out why this is broken
-/*void WindowHandler::unlinkObservable(void)
+void WindowHandler::unlinkObservable(void)
 {
     if (this->engineInterfaceController)
     {
         this->engineInterfaceController = nullptr;
     }
-}*/
+}
