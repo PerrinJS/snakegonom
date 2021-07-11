@@ -77,12 +77,12 @@ void WindowHandler::whUpdate(void)
         redraw();
     }
 
-    mvprintw(0,0,"paused wid:%d, height:%d", xwid, ywid);
+    mvprintw(0, 0, "paused wid:%d, height:%d", xwid, ywid);
     // ncurses refresh
     refresh();
     if (this->playAreaWindow != nullptr)
     {
-        wmove(this->playAreaWindow,0,0);
+        wmove(this->playAreaWindow, 0, 0);
         wprintw(this->playAreaWindow, "test");
         wrefresh(this->playAreaWindow);
     }

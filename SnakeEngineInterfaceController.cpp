@@ -17,7 +17,7 @@ SnakeEngineInterfaceController::SnakeEngineInterfaceController(
     this->cont = true;
 }
 
-SnakeEngineInterfaceController::~SnakeEngineInterfaceController(void) 
+SnakeEngineInterfaceController::~SnakeEngineInterfaceController(void)
 {
     for (auto *ob : this->m_allObservers)
     {
