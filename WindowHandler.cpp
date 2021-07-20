@@ -8,6 +8,8 @@
 #include "SnecObservable.hpp"
 #include "WindowHandler.hpp"
 
+namespace View
+{
 WindowHandler *WindowHandler::masterWindowHandler = nullptr;
 
 WindowHandler::WindowHandler(void)
@@ -66,7 +68,7 @@ void WindowHandler::redraw(void)
     box(this->playAreaWindow, 0, 0);
 }
 
-void WindowHandler::whUpdate(void)
+void WindowHandler::dRefresh(void)
 {
     handleKeyEvent(getch());
 
@@ -108,7 +110,7 @@ void WindowHandler::handleKeyEvent(int toHandle)
     }
 }
 
-void WindowHandler::pause(void) { whUpdate(); }
+void WindowHandler::pause(void) { dRefresh(); }
 
 std::vector<int> WindowHandler::getPlayAreaDimen(void) const
 {
@@ -135,7 +137,7 @@ void WindowHandler::sendMessage(SnecMessage message)
         this->pause();
         break;
     case UPDATE:
-        this->whUpdate();
+        this->dRefresh();
         break;
     // TODO: fill in what happends here
     case STATEINFO:
@@ -160,3 +162,5 @@ void WindowHandler::unlinkObservable(void)
         this->engineInterfaceController = nullptr;
     }
 }
+
+} // namespace View

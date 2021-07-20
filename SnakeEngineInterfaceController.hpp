@@ -11,7 +11,7 @@ class SnakeEngineInterfaceController : public SnecObservable
 {
   private:
     SnakeEngine *m_snakeEngine = nullptr;
-    WindowHandler *m_windowHandler = nullptr;
+    View::WindowHandler *m_windowHandler = nullptr;
 
     // Global observser is a list of all the observer in the system
     std::vector<SnecObserver *> m_allObservers;
@@ -25,7 +25,7 @@ class SnakeEngineInterfaceController : public SnecObservable
 
   public:
     SnakeEngineInterfaceController(SnakeEngine *snakeEngine,
-                                   WindowHandler *windowHandler);
+                                   View::WindowHandler *windowHandler);
 
     ~SnakeEngineInterfaceController(void) override;
 

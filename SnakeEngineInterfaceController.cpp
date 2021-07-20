@@ -2,7 +2,7 @@
 #include "SnecObserver.hpp"
 
 SnakeEngineInterfaceController::SnakeEngineInterfaceController(
-    SnakeEngine *snakeEngine, WindowHandler *windowHandler)
+    SnakeEngine *snakeEngine, View::WindowHandler *windowHandler)
     : m_allObservers(), m_systemObservers()
 {
     this->m_snakeEngine = snakeEngine;

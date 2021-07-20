@@ -10,7 +10,7 @@
 // Rember to take adventage of the new observer infestructure
 int main(void)
 {
-    WindowHandler *wh = WindowHandler::getWindowHandlerSingleton();
+    auto *wh = View::WindowHandler::getWindowHandlerSingleton();
     auto playAreaSz = wh->getPlayAreaDimen();
 
     // We should always have an x and y
