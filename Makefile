@@ -60,4 +60,5 @@ run: $(BUILDDIR)/snakegonom
 	$?
 
 clean:
-	rm -f $(OFILES) $(EXE)
+	rm -f $(OFILES) $(EXE) compile_commands.json
+
