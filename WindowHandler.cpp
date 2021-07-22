@@ -99,8 +99,12 @@ void WindowHandler::handleKeyEvent(int toHandle)
 {
     switch (toHandle)
     {
-    case KEY_UP:
-    {
+    // The escape key
+    case 'P':
+        this->engineInterfaceController->sendMessage(
+            Message{.type = PAUSE, .state = nullptr});
+        break;
+    case 'Q':
         // TODO: this is just while we develop the rest of the system
         if (this->engineInterfaceController)
         {
