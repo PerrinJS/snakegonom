@@ -14,11 +14,16 @@ WindowHandler *WindowHandler::masterWindowHandler = nullptr;
 
 WindowHandler::WindowHandler(void)
 {
+    /* TODO: find the function to not set a blocking timer after a 'function
+     * key is pressed' */
+
     initscr();
     // send keys as they are pressed
     cbreak();
     noecho();
-    timeout(200);
+    // wait 1 tenths of a ms everytime getch is called
+    halfdelay(1);
+
     // TODO: this should be only enabled on the playwindow when we make it
     // enable arrow keys on stdscr
     keypad(stdscr, TRUE);
