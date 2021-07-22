@@ -49,6 +49,14 @@ void SnakeEngineInterfaceController::run(void)
     }
 }
 
+void SnakeEngineInterfaceController::pauseAll(void)
+{
+    for (auto *observer : this->m_allObservers)
+    {
+        observer->sendMessage(Message{.type = PAUSE, .state = nullptr});
+    }
+}
+
 /* For SnecObservable Implementation */
 void SnakeEngineInterfaceController::sendMessage(SnecMessage message)
 {
@@ -62,6 +70,7 @@ void SnakeEngineInterfaceController::sendMessage(SnecMessage message)
     case INTERFACEINFO:
         break;
     case PAUSE:
+        pauseAll();
         break;
     case STOP:
         this->cont = false;

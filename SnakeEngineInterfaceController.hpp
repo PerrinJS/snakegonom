@@ -32,7 +32,10 @@ class SnakeEngineInterfaceController : public SnecObservable
     // this runs our engine loop
     void run(void);
 
-    const std::vector<SnecListenerCatagorization> *getListenerCatagorization();
+    const std::vector<SnecListenerCatagorization> *
+    getListenerCatagorization(void);
+
+    void pauseAll(void);
 
     /* For SnecObservable Implementation */
     void sendMessage(SnecMessage message) override;
