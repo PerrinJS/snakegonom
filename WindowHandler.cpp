@@ -112,7 +112,6 @@ void WindowHandler::handleKeyEvent(int toHandle)
                 Message{.type = STOP, .state = nullptr});
         }
         break;
-    }
     default:
         break;
     }
