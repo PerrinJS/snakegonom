@@ -1,5 +1,7 @@
-Finish implementing having multiple catagoies of subscribers in
-    SnakeEngineInterfaceController and everywhere else.
+Descide if it is nessisary to finish implementing having multiple catagoies of
+  subscribers in SnakeEngineInterfaceController and everywhere else.
 Fully implement the user interface with buttons etc.
 Figure how messages are sent and receved without building a circular call stack
-    (maybe create an action stack of actions)
+  (maybe create an action stack of actions)
+Add Error handling to the interface between WindowHandler and the raw ncurses
+  library
