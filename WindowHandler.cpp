@@ -68,8 +68,7 @@ void WindowHandler::redraw(void)
         this->playAreaWindow = nullptr;
     }
     // we leave a free line at the top of the screen as a "title"
-    this->playAreaWindow =
-        newwin(static_cast<int>(ywid - 2), static_cast<int>(xwid - 1), 1, 0);
+    this->playAreaWindow = newwin((ywid - 1), (xwid - 1), 0, 0);
     box(this->playAreaWindow, 0, 0);
 }
 
