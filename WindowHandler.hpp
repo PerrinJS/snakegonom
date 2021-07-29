@@ -23,9 +23,51 @@ class InterfaceElement : public Drawable
 {
   public:
     virtual void setPosition(int x, int y) = 0;
-    virtual InterfaceElement *getParent(void) = 0;
+    virtual Drawable *getParent(void) = 0;
     virtual ~InterfaceElement(void) override = default;
 };
+
+// TODO: Finish filling out thease classes
+namespace Elements
+{
+class Window : public InterfaceElement
+{
+  private:
+    Drawable *m_parent = nullptr;
+    WINDOW *m_thisWin = nullptr;
+    std::vector<InterfaceElement *> m_childElements;
+
+  public:
+    Window(Drawable *parent, int xSize, int ySize, int xPos, int yPos);
+    ~Window(void) override;
+    void setPosition(int x, int y) override;
+    Drawable *getParent(void) override;
+    void redraw(void) override;
+    void dRefresh(void) override;
+};
+
+class Label : public InterfaceElement
+{
+  public:
+    Label(int xSize, int ySize, int xPos, int yPos);
+    ~Label(void) override;
+    void setPosition(int x, int y) override;
+    Drawable *getParent(void) override;
+    void redraw(void) override;
+    void dRefresh(void) override;
+};
+
+class Button : public InterfaceElement
+{
+  public:
+    Button(int xSize, int ySize, int xPos, int yPos);
+    ~Button(void) override;
+    void setPosition(int x, int y) override;
+    Drawable *getParent(void) override;
+    void redraw(void) override;
+    void dRefresh(void) override;
+};
+} // namespace Elements
 
 /* TODO: make the window handler a singleton since only one 'instance' of
  * ncurses can exist at once */
