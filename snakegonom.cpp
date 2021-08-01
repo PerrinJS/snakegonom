@@ -13,10 +13,8 @@ int main(void)
     auto *wh = View::WindowHandler::getWindowHandlerSingleton();
     auto playAreaSz = wh->getPlayAreaDimen();
 
-    // We should always have an x and y
-    assert(playAreaSz.size() == 2);
-
-    SnakeEngine *se = new SnakeEngine(playAreaSz[0], playAreaSz[1]);
+    SnakeEngine *se =
+        new SnakeEngine(std::get<0>(playAreaSz), std::get<1>(playAreaSz));
 
     SnakeEngineInterfaceController *controller =
         new SnakeEngineInterfaceController(se, wh);

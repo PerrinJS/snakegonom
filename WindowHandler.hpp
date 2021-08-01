@@ -1,6 +1,8 @@
 #pragma once
 
 #include <exception>
+#include <functional>
+#include <tuple>
 #include <vector>
 
 #include <ncurses.h>
@@ -10,21 +12,58 @@
 
 namespace View
 {
+
+typedef long InterfaceElementID;
+
 class Drawable
 {
+  protected:
+    // For applying drawing functions that affect the depth of the items on scr
+    // static void applyBrethFirst(std::function<void(void)> *toApply);
+
   public:
+    // TODO: move thease to protected onece applyBrethFirst is implemented
     virtual void redraw(void) = 0;
     // Drawable refresh
     virtual void dRefresh(void) = 0;
+
+    // TODO: unmask thease once the above changes have been made
+    /* virtual void refreshAboveElements(void) = 0;
+    virtual void clearAboveElements(void) = 0; */
+
+    virtual void setText(int x, int y, std::string str) = 0;
+    virtual std::tuple<int, int> getGlobalPos(void) = 0;
+
     virtual ~Drawable(void) = default;
 };
 
 class InterfaceElement : public Drawable
 {
+  protected:
+    static InterfaceElementID TOTAL_ELEMENTS;
+    const InterfaceElementID interfaceElemId;
+
+    std::vector<InterfaceElement *> childElements;
+
+    InterfaceElement(void);
+
   public:
+    /* Pure virtual functions */
     virtual void setPosition(int x, int y) = 0;
+    virtual std::tuple<int, int> getPosition(void) = 0;
     virtual Drawable *getParent(void) = 0;
-    virtual ~InterfaceElement(void) override = default;
+
+    /* Concrete functions */
+    // We still don't need a constructor because our container classes do
+    // cleanup
+    ~InterfaceElement(void) override = default;
+
+    /* Searches child elements depth first for an element with the specified id
+     * If the specified id is not found then return a nullptr */
+    InterfaceElement *getElementWithId(InterfaceElementID id);
+    InterfaceElementID getElementId(void);
+    std::vector<InterfaceElement *> getChildElements(void);
+    void addChildElement(InterfaceElement *element);
 };
 
 // TODO: Finish filling out thease classes
@@ -33,17 +72,25 @@ namespace Elements
 class Window : public InterfaceElement
 {
   private:
-    Drawable *m_parent = nullptr;
-    WINDOW *m_thisWin = nullptr;
-    std::vector<InterfaceElement *> m_childElements;
+    Drawable *parent = nullptr;
+    WINDOW *thisWin = nullptr;
+
+  protected:
+    int xwid = 0;
+    int ywid = 0;
 
   public:
-    Window(Drawable *parent, int xSize, int ySize, int xPos, int yPos);
+    Window(Drawable *wParent, int xSize, int ySize, int xPos, int yPos);
     ~Window(void) override;
+    void setText(int x, int y, std::string str) override;
     void setPosition(int x, int y) override;
+    std::tuple<int, int> getPosition(void) override;
     Drawable *getParent(void) override;
     void redraw(void) override;
+    std::tuple<int, int> getGlobalPos(void) override;
     void dRefresh(void) override;
+
+    void setSize(int xSize, int ySize);
 };
 
 class Label : public InterfaceElement
@@ -81,9 +128,13 @@ class WindowHandler : public SnecObserver, public Drawable
     SnecObservable *engineInterfaceController = nullptr;
 
   protected:
+    bool running = true;
     int xwid = 0;
     int ywid = 0;
-    WINDOW *playAreaWindow = nullptr;
+    std::vector<InterfaceElement *> childGuiElements;
+
+    /* Specific Window elements */
+    Elements::Window *playAreaWindow = nullptr;
 
     WindowHandler(void);
     // the return value is weather the size changed from the previous value
@@ -91,9 +142,17 @@ class WindowHandler : public SnecObserver, public Drawable
     // Gets and handles all key events from ncurses
     void handleKeyEvent(int toHandle);
 
+    /* Functions for the different screens */
+    void openPausedWindow(void);
+
     /* Implementation of Drawable */
     // Builds / recreats the interface from scratch
     void redraw(void) override;
+    // Allows for text to be written starting at a cirtain position
+    void setText(int x, int y, std::string str) override;
+    // In this case because this is the root window this will always return
+    // (0,0)
+    std::tuple<int, int> getGlobalPos(void) override;
     // For handling the UPDATE message
     void dRefresh(void) override;
 
@@ -101,7 +160,7 @@ class WindowHandler : public SnecObserver, public Drawable
     ~WindowHandler(void) override;
 
     void pause(void);
-    std::vector<int> getPlayAreaDimen(void) const;
+    std::tuple<int, int> getPlayAreaDimen(void) const;
 
     static WindowHandler *getWindowHandlerSingleton(void);
 
