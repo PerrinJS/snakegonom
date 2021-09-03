@@ -14,6 +14,39 @@ namespace View
 
 InterfaceElementID InterfaceElement::TOTAL_ELEMENTS = 0;
 
+/* Static methods from InterfaceElement */
+void InterfaceElement::applyBreadthFirst(
+    std::function<void(InterfaceElement *)> *toApply,
+    std::vector<InterfaceElement *> children)
+{
+    /* In order to apply to each level all at the same time we need to create
+     * a list of all the elements in that level before applying the function
+     * to all the instances.
+     * - In the first instance we will just apply it to the list given.
+     * - Then in preparation for the seccond and all other iterations we use
+     *   the list we just applied the function to to create the list for the
+     *   next iteration. We go through each element and append the list one
+     *   indent down to our new list.
+     */
+
+    std::vector<InterfaceElement *> nextIterList;
+
+    // Wont run if there is nothing in the list
+    for (auto *element : children)
+    {
+        (*toApply)(element);
+        nextIterList.insert(nextIterList.end(), element->childElements.begin(),
+                            element->childElements.end());
+    }
+
+    // If the loop above didn't run then we exit
+    if (nextIterList.size() > 1)
+    {
+        // Do another iteration
+        applyBreadthFirst(toApply, nextIterList);
+    }
+}
+
 /* The only interface element field is it's id. This is taken from the
  * TOTAL_ELEMENTS static field which is then incremented ready for the next
  * elements to take that new id. */
@@ -222,14 +255,10 @@ void WindowHandler::redraw(void)
         this->playAreaWindow->setSize(this->xwid, this->ywid - 1);
     }
 
-    // Breth first to retain depth
-    // TODO: Write breth first alg in InterfaceElement
-
-    // TODO: this is just for whilst we dont have the above mentioned algorithem
-    for (auto *element : this->childGuiElements)
-    {
-        element->redraw();
-    }
+    // Breath first to retain depth
+    std::function<void(InterfaceElement *)> toApply;
+    toApply = [](InterfaceElement *element) { element->redraw(); };
+    View::InterfaceElement::applyBreadthFirst(&toApply, this->childGuiElements);
 
     // TODO: this is just for testing
     this->playAreaWindow->setText(0, 0, "Hello");
@@ -249,8 +278,6 @@ void WindowHandler::dRefresh(void)
 {
     handleKeyEvent(getch());
 
-    /* TODO: This is just while were testing, eventually we should do something
-     * else when the screen is resized */
     if (updatexywid())
     {
         redraw();
@@ -259,13 +286,15 @@ void WindowHandler::dRefresh(void)
     mvprintw((ywid - 1), 0, "paused wid:%d, height:%d", xwid, ywid);
     // ncurses refresh
     refresh();
-
     if (this->playAreaWindow != nullptr)
     {
         this->playAreaWindow->setPosition(0, 0);
 
-        // TODO: While we don't have the breth first alg in InterfaceElement
-        this->playAreaWindow->dRefresh();
+        // Breath first to retain depth
+        std::function<void(InterfaceElement *)> toApply;
+        toApply = [](InterfaceElement *element) { element->dRefresh(); };
+        View::InterfaceElement::applyBreadthFirst(&toApply,
+                                                  this->childGuiElements);
     }
 }
 

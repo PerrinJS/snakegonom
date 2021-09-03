@@ -17,12 +17,8 @@ typedef long InterfaceElementID;
 
 class Drawable
 {
-  protected:
-    // For applying drawing functions that affect the depth of the items on scr
-    // static void applyBrethFirst(std::function<void(void)> *toApply);
-
   public:
-    // TODO: move thease to protected onece applyBrethFirst is implemented
+    // TODO: move thease to protected onece applyBreadthFirst is implemented
     virtual void redraw(void) = 0;
     // Drawable refresh
     virtual void dRefresh(void) = 0;
@@ -57,6 +53,11 @@ class InterfaceElement : public Drawable
     // We still don't need a constructor because our container classes do
     // cleanup
     ~InterfaceElement(void) override = default;
+
+    // For applying drawing functions that affect the depth of the items on scr
+    static void
+    applyBreadthFirst(std::function<void(InterfaceElement *)> *toApply,
+                      std::vector<InterfaceElement *> children);
 
     /* Searches child elements depth first for an element with the specified id
      * If the specified id is not found then return a nullptr */
