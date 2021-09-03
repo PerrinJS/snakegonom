@@ -114,6 +114,21 @@ class Button : public InterfaceElement
     void redraw(void) override;
     void dRefresh(void) override;
 };
+
+/* For spacing an interface element up a level. It essentially ammounts to a
+ * blank node in the tree storing more branches at the above level */
+class Blank : public InterfaceElement
+{
+  public:
+    /* All thease functions are blank (do nothing) */
+    Blank(int xSize, int ySize, int xPos, int yPos);
+    ~Blank(void) override;
+    void setPosition(int x, int y) override;
+    Drawable *getParent(void) override;
+    void redraw(void) override;
+    void dRefresh(void) override;
+};
+
 } // namespace Elements
 
 /* TODO: make the window handler a singleton since only one 'instance' of
